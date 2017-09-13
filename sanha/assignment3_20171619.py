@@ -74,4 +74,3 @@ def showScoreDB(scdb, keyname):
 scoredb = readScoreDB()
 doScoreDB(scoredb)
 writeScoreDB(scoredb)
-
