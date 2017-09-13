@@ -27,7 +27,6 @@ def readScoreDB():
 	
 	return scdb    # return scdb가 필요한가?
 
-
 # write the data into person db
 
 def writeScoreDB(scdb):
