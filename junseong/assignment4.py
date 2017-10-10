@@ -13,7 +13,7 @@ def factorial(n):
 
 
 def combination_equation(n, m):
-    return factorial(n) / (factorial(m) * factorial(n - m))
+    return int(factorial(n) / (factorial(m) * factorial(n - m)))
 
 
 while True:
