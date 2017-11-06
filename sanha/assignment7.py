@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QLineEdit, QToolButton
 from PyQt5.QtWidgets import QSizePolicy
 from PyQt5.QtWidgets import QLayout, QGridLayout
 
-# 사용자 클래스 (Button) 생성 - 공통된 부분을 클래스에 넣어서 관리하겠다는 뜻
+# 사용자 클래스 (Button) 생성 - 공통된 부분을 클래스에 넣어서 관리
 
 class Button(QToolButton):
 
@@ -12,7 +12,7 @@ class Button(QToolButton):
         super().__init__()
         self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)        # 사이즈 조정
         self.setText(text)
-        self.clicked.connect(callback)             # 버튼이 눌렸을 때의 기능 구현
+        self.clicked.connect(callback)             # 버튼이 눌릴 때의 기능 구현
 
     def sizeHint(self):
         size = super(Button, self).sizeHint()
@@ -31,17 +31,7 @@ class Calculator(QWidget) :
         self.display.setReadOnly(True)
         self.display.setAlignment(Qt.AlignRight)
         self.display.setMaxLength(15)
-
-    def buttonClicked(self):
-        button = self.sender()
-        key = button.text()
-        if key == '=':
-            result = str(eval(self.display.text()))
-            self.display.setText(result)
-        elif key == 'C':
-            self.display.setText('')
-        else:
-            self.display.setText(self.display.text() + key)
+        
 
         # Digit Buttons
         self.digitButton = [x for x in range(0, 10)]               # 버튼 클래스 생성
@@ -49,23 +39,19 @@ class Calculator(QWidget) :
         for i in range(10) :
             self.digitButton[i] = Button(str([i]), self.buttonClicked)
 
-
         # . and = Buttons    
-        self.decButton = buttonClicked('.', self.buttonClicked)             # callback을 넘겨줘야함
-        self.eqButton = buttonClicked('=', self.buttonClicked)
+        self.decButton = Button('.', self.buttonClicked)             # callback을 넘겨줘야함
+        self.eqButton = Button('=', self.buttonClicked)              ## self.~~~ = Button('~', self.buttonClicked)로
 
         # Operator Buttons
-        self.mulButton = buttonClicked('*')
-        self.divButton = buttonClicked('/')
-        self.addButton = buttonClicked('+')
-        self.subButton = buttonClicked('-')
+        self.mulButton = Button('*', self.buttonClicked)
+        self.divButton = Button('/', self.buttonClicked)
+        self.addButton = Button('+', self.buttonClicked)
+        self.subButton = Button('-', self.buttonClicked)
 
         # Parentheses Buttons
-        self.lparButton = buttonClicked('(')
-        self.rparButton = buttonClicked(')')
-
-        # Clear Button
-        self.clearButton = buttonClicked('C')
+        self.lparButton = Button('(', self.buttonClicked)
+        self.rparButton = Button(')', self.buttonClicked)
 
         # Layout
         mainLayout = QGridLayout()
@@ -97,6 +83,18 @@ class Calculator(QWidget) :
         mainLayout.addLayout(opLayout, 1, 1)
         self.setLayout(mainLayout)
         self.setWindowTitle("My Calculator")
+        
+    def buttonClicked(self):
+        button = self.sender()
+        key = button.text()
+        if key == '=':
+            result = str(eval(self.display.text()))
+            self.display.setText(result)
+        elif key == 'C':
+            self.display.setText('')
+        else:
+            self.display.setText(self.display.text() + key)
+
 
 # Main
 if __name__ == '__main__':
