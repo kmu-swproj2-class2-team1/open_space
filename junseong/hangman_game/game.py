@@ -11,12 +11,13 @@ class HangmanGame:
         self.query_str = []
         self.selected_character = []
 
-    def new_game(self):
+    def new_game(self, new_word=None):
         self.clear()
-        new_word = self.words.new_word()
+        if new_word is None:
+            new_word = self.words.new_word()
         self.answer = list(new_word)
         self.query_str = ["_" for _ in range(len(new_word))]
-        self.view.update(self.get_state())
+        # self.view.update(self.get_state())
 
     def query(self, c):
         try:
@@ -30,7 +31,7 @@ class HangmanGame:
             # c가 정답에 속하는가?
             if c in self.answer:
                 self.update_query(c)
-                self.view.update(self.get_state())
+                # self.view.update(self.get_state())
                 if self.is_finished():
                     return True
 
@@ -38,15 +39,15 @@ class HangmanGame:
                 raise WrongAnswer
 
         except AlreadySelected as e:
-            self.view.update(self.get_state(), e)
+            # self.view.update(self.get_state(), e)
+            pass
 
         except WrongAnswer as e:
             self.tries += 1
-            self.view.update(self.get_state(), e)
+            # self.view.update(self.get_state(), e)
+            pass
 
             if self.is_dead():
-                print("\n---------------------------")
-                print("Answer was [ %s ]" % "".join(self.answer))
                 return False
 
     def update_query(self, c):
@@ -64,13 +65,22 @@ class HangmanGame:
         return "_" not in self.query_str
 
     def get_state(self):
-        return {"tries": self.tries, "query": "".join(self.query_str)}
+        return {"tries": self.tries, "query": "".join(self.query_str), "is_finished": self.is_finished()}
 
     def clear(self):
         self.tries = 0
         self.answer.clear()
         self.query_str.clear()
         self.selected_character.clear()
+
+    def show_state(self):
+        self.view.update(self.get_state())
+
+    def get_selected_character(self):
+        return " ".join(self.selected_character)
+
+    def get_query(self):
+        return self.get_state()["query"]
 
 
 class AlreadySelected(Exception):
