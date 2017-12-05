@@ -6,29 +6,22 @@ from guess import Guess
 
 class TestGuess(unittest.TestCase):
 
-    def testGuessCase(self):                       # using Assert to test cases of guess()
-        self.assertTrue(self.g1.guess('a'))
-
-        self.assertTrue(self.g1.guess('d'))
-
-        self.assertTrue(self.g1.guess('e'))
-
-        self.assertTrue(self.g1.guess('f'))
-
-        self.assertTrue(self.g1.guess('l'))
-
-        self.assertTrue(self.g1.guess('t'))
-
-        self.assertTrue(self.g1.guess('u'))
-
-        self.assertEqual(self.g1.currentStatus, self.g1.secretWord)
-
-
     def setUp(self):
         self.g1 = Guess('default')
 
     def tearDown(self):
         pass
+
+    def testGuessCase(self):                       # using Assert to test cases of guess()
+        alphabetList = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+        default_alphabet_List = ['d','e','f','a','u','l','t']
+        not_default_alphabet_List = alphabetList - default_alphabet_List
+
+        self.assertTrue(self.g1.guess(x for x in default_alphabet_List))
+
+        self.assertFalse(Self.g1.guess(x for x in not_default_alphabet_List))
+
+        self.assertEqual(self.g1.currentStatus, self.g1.secretWord)
 
     def testDisplayCurrent(self):
         self.assertEqual(self.g1.displayCurrent(), '_ e _ _ _ _ _ ')          # test init status
